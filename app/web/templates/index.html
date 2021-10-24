@@ -1,0 +1,55 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   {% load static %}
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   <link rel="shortcut icon" href="{% static 'img/weather.png' %}" type="image/x-icon">
+   <title>Погода</title>
+</head>
+
+<body>
+   <header>
+      <p class="Name">Elvinchik</p>
+      <a href="#" class="nav">Main</a>
+   </header>
+   <div class="container">
+      <div class="Name__Block">
+         <h1>Погода в вашем городе</h1>
+         <p class="suptitle">Город</p>
+         <p class="suptitle">Чтобы очистить информацию, напишите <b>Очистить</b></p>
+
+         <form action="#" method="POST">
+            {% csrf_token %}
+            {% render_field form.city class="City__Name" placeholder="Введите город..." %}
+            <button class="know">Узнать</button>
+            <p class="error_message">{{ error }}</p>
+         </form>
+
+      </div>
+
+      <div class="Info__Block">
+         <h1>Информация</h1>
+         <div class="Info__Block__Items">
+            <div class="Item" style="background-image: url('https://openweathermap.org/img/w/{{ icon }}.png')">
+               <p class="city">Город: <span>Москва</span></p>
+               <p class="temp">Температура: <span>{{ temp }}°</span></p>
+            </div>
+         </div>
+         {% for temp in info %}
+         <div class="Info__Block__Items">
+            <div class="Item" style="background-image: url('https://openweathermap.org/img/w/{{ temp.icon }}.png')">
+               <p class="city">Город: <span>{{ temp.city | safe }}</span></p>
+               <p class="temp">Температура: <span>{{ temp.temp | safe }}°</span></p>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </div>
+</body>
+
+</html>
